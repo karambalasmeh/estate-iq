@@ -1,0 +1,16 @@
+# Python basics
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment (Do NOT upload this!)
+venv/
+.env
+
+# Data & Models (Usually huge, we don't push huge files to standard git)
+data/
+models/
+
+# IDE settings (Optional, keep your repo clean from VSCode settings)
+.vscode/
+.idea/
