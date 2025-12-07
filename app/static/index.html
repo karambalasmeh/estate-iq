@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstateIQ | The Future of Real Estate</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="/" class="nav-brand">EstateIQ 🏠</a>
+
+        <div class="nav-links" id="navLinks">
+        </div>
+    </nav>
+
+    <div class="hero-container">
+        <div class="hero-content">
+            <h1>Predict Real Estate Values with <br> <span class="gradient-text">Artificial Intelligence</span></h1>
+
+            <p class="subtitle">
+                Join thousands of investors using Enterprise-Grade AI to make smarter decisions.
+                Instant valuations, historical data, and batch processing.
+            </p>
+
+            <div id="mainActionBtn">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function updateUI() {
+            const token = localStorage.getItem('token');
+            const navLinks = document.getElementById('navLinks');
+            const mainAction = document.getElementById('mainActionBtn');
+
+            // --- الحالة الأولى: المستخدم مسجل دخول ---
+            if (token) {
+                try {
+                    const res = await fetch('/api/v1/auth/me', {
+                        headers: { 'Authorization': 'Bearer ' + token }
+                    });
+
+                    if (res.ok) {
+                        const user = await res.json();
+                        // عرض الاسم وزر الداشبورد والخروج
+                        navLinks.innerHTML = `
+                            <span style="color: #cbd5e1; font-size: 0.95rem; font-weight: 500;">Hi, ${user.full_name.split(' ')[0]}</span>
+                            <a href="/dashboard-page" class="btn btn-outline" style="padding: 8px 18px; font-size: 0.9rem;">Dashboard</a>
+                            <button onclick="logout()" class="btn" style="background: transparent; color: #ef4444; border: 1px solid #ef4444; padding: 8px 18px; font-size: 0.9rem;">Logout</button>
+                        `;
+                        // الزر الرئيسي في وسط الشاشة
+                        mainAction.innerHTML = `
+                            <a href="/dashboard-page" class="btn btn-primary" style="font-size: 1.1rem; padding: 15px 40px;">Go to Dashboard 🚀</a>
+                        `;
+                    } else {
+                        throw new Error("Token invalid");
+                    }
+                } catch (e) {
+                    localStorage.removeItem('token');
+                    showGuestUI();
+                }
+            }
+            // --- الحالة الثانية: زائر (غير مسجل) ---
+            else {
+                showGuestUI();
+            }
+
+            function showGuestUI() {
+                // روابط الناف بار للزوار
+                navLinks.innerHTML = `
+                    <a href="/login-page" class="nav-link">Login</a>
+                    <a href="/signup-page" class="btn btn-primary">Sign Up</a>
+                `;
+                // الزر الرئيسي للزوار
+                mainAction.innerHTML = `
+                    <a href="/signup-page" class="btn btn-primary" style="font-size: 1.1rem; padding: 15px 40px;">Get Started Free ⚡</a>
+                `;
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = '/login-page';
+        }
+
+        updateUI();
+    </script>
+</body>
+
+</html>

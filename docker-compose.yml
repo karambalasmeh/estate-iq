@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # اسم الخدمة
+  db:
+    image: postgres:15-alpine
+    container_name: estate_iq_db
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=estate_iq
+    ports:
+      - "5433:5432"
+    volumes:
+      # هذا السطر مهم جداً: يحفظ البيانات في مجلد محلي
+      # عشان لما تطفي الدوكر، البيانات ما تضيع
+      - ./postgres_data:/var/lib/postgresql/data
+  web:
+    # نستخدم الصورة التي بنيناها قبل قليل
+    image: estate-iq-app
+    container_name: estate_iq_web
+    restart: always
+    # نربط بورت 8000 في جهازك ببورت 8000 في الحاوية
+    ports:
+      - "8000:8000"
+    # هذا السطر يقول: لا تشغل التطبيق إلا لما الداتا بيس تشتغل
+    depends_on:
+      - db
+    # --- السحر هنا (Environment Variables) ---
+    environment:
+      # نغير الرابط لكي يفهم دوكر أين الداتا بيس
+      # لاحظ: استخدمنا كلمة 'db' بدلاً من 'localhost'
+      # واستخدمنا البورت الداخلي '5432' وليس الخارجي
+      - DATABASE_URL=postgresql://postgres:admin@db:5432/estate_iq
+      - SECRET_KEY=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
+      - ALGORITHM=HS256
+      - ACCESS_TOKEN_EXPIRE_MINUTES=30

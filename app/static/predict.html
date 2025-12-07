@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstateIQ | Predict</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div style="text-align: left; margin-bottom: 20px;">
+            <a href="/" style="color: var(--accent-color); text-decoration: none;">← Back to Home</a>
+        </div>
+        <h1>Property Analysis</h1>
+        <p>Enter the property specifications below.</p>
+
+        <form id="predictionForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Median Income ($10k)</label>
+                    <input type="number" id="MedInc" step="0.1" value="3.5" required>
+                </div>
+                <div class="form-group">
+                    <label>House Age (Years)</label>
+                    <input type="number" id="HouseAge" step="1" value="25" required>
+                </div>
+                <div class="form-group">
+                    <label>Average Rooms</label>
+                    <input type="number" id="AveRooms" step="0.1" value="5.0" required>
+                </div>
+                <div class="form-group">
+                    <label>Average Bedrooms</label>
+                    <input type="number" id="AveBedrms" step="0.1" value="1.0" required>
+                </div>
+                <div class="form-group">
+                    <label>Population</label>
+                    <input type="number" id="Population" step="1" value="1000" required>
+                </div>
+                <div class="form-group">
+                    <label>Avg Occupancy</label>
+                    <input type="number" id="AveOccup" step="0.1" value="3.0" required>
+                </div>
+                <div class="form-group">
+                    <label>Latitude</label>
+                    <input type="number" id="Latitude" step="0.01" value="34.05" required>
+                </div>
+                <div class="form-group">
+                    <label>Longitude</label>
+                    <input type="number" id="Longitude" step="0.01" value="-118.25" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn">Calculate Value 💰</button>
+        </form>
+
+        <div id="result"></div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+
+</html>

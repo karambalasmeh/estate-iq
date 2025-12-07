@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>EstateIQ | Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .history-item {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price-tag {
+            color: #34d399;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .date {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" style="max-width: 900px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>My Dashboard 📊</h1>
+            <button onclick="logout()" class="btn btn-secondary"
+                style="font-size: 0.8em; padding: 8px 15px;">Logout</button>
+        </div>
+
+        <div style="margin: 20px 0; display: grid; gap: 10px; grid-template-columns: 1fr 1fr;">
+            <a href="/predict-page" class="btn" style="text-align: center;">New Prediction 🏠</a>
+        </div>
+
+        <h3 style="text-align: left; margin-top: 30px;">Prediction History</h3>
+        <div id="historyList" style="margin-top: 20px;">
+            Loading history...
+        </div>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('token');
+        if (!token) window.location.href = '/login-page';
+
+        async function loadHistory() {
+            const res = await fetch('/api/v1/history', {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                const list = document.getElementById('historyList');
+                list.innerHTML = '';
+
+                if (data.length === 0) {
+                    list.innerHTML = '<p>No predictions yet. Go make some!</p>';
+                    return;
+                }
+
+                data.reverse().forEach(item => {
+                    const date = new Date(item.created_at).toLocaleDateString();
+                    const price = (item.predicted_price * 100000).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+
+                    list.innerHTML += `
+                        <div class="history-item">
+                            <div>
+                                <div class="date">${date}</div>
+                                <div style="font-size: 0.9em; color: #ccc;">
+                                    Rooms: ${item.input_data.AveRooms} | Age: ${item.input_data.HouseAge}
+                                </div>
+                            </div>
+                            <div class="price-tag">${price}</div>
+                        </div>
+                    `;
+                });
+            } else {
+                localStorage.removeItem('token');
+                window.location.href = '/login-page';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = '/login-page';
+        }
+
+        loadHistory();
+    </script>
+</body>
+
+</html>

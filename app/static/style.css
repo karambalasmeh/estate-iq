@@ -1,0 +1,237 @@
+/* --- Global Reset & Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+:root {
+    --bg-dark: #0f172a;
+    --glass-bg: rgba(30, 41, 59, 0.75);
+    /* Darker for better contrast */
+    --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+    --primary-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+    --text-main: #f8fafc;
+    --text-muted: #cbd5e1;
+    --glow: 0 0 20px rgba(56, 189, 248, 0.3);
+}
+
+/* Reset is CRITICAL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    min-height: 100vh;
+    /* Subtle background pattern */
+    background-image:
+        radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.08) 0%, transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(129, 140, 248, 0.08) 0%, transparent 25%);
+}
+
+/* --- Navbar (FIXED ALIGNMENT) --- */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* Force full width */
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    /* Logo Left, Links Right */
+    align-items: center;
+    /* Vertical Center */
+    padding: 0 40px;
+    /* Horizontal spacing */
+    background: rgba(15, 23, 42, 0.9);
+    /* Solid-ish background */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: var(--glass-border);
+    z-index: 1000;
+}
+
+/* Logo Styling */
+.nav-brand {
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-decoration: none;
+    /* Gradient Text */
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* Fallback color if gradient fails */
+    color: #38bdf8;
+}
+
+/* Links Container */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    /* Space between Login and Sign Up */
+}
+
+/* Normal Links (Login) */
+.nav-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #fff;
+}
+
+/* --- Buttons --- */
+.btn {
+    display: inline-block;
+    padding: 10px 28px;
+    border-radius: 50px;
+    /* Rounded pills */
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.btn-primary {
+    background: var(--primary-gradient);
+    color: white !important;
+    /* Force white text */
+    box-shadow: var(--glow);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(56, 189, 248, 0.5);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white !important;
+}
+
+.btn-outline:hover {
+    border-color: white;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* --- Hero Section --- */
+.hero-container {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 80px;
+    /* Ensure content isn't hidden behind navbar */
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.hero-content {
+    max-width: 900px;
+    animation: fadeIn 0.8s ease-out;
+}
+
+h1 {
+    font-size: 3.5rem;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    font-weight: 800;
+    color: white;
+}
+
+.gradient-text {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+p.subtitle {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- Forms & Container (For other pages) --- */
+.container {
+    margin-top: 120px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    max-width: 500px;
+    background: var(--glass-bg);
+    border: var(--glass-border);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+/* Form inputs */
+.form-group {
+    margin-bottom: 1.2rem;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-muted);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: white;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #38bdf8;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0 20px;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    .nav-links {
+        gap: 15px;
+    }
+}
